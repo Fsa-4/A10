@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Example</title>
+  <link rel="stylesheet" href="Styles\Main.css">
+</head>
+<body>
+  <h1>Cookie Example</h1>
+  
+  <div id="cookieValue" style="display:none;"></div> <!-- Hidden by default -->
+
+  <button onclick="setCookie()">Set Value</button>
+
+  <script>
+    // Function to set the cookie value using a prompt dialog
+    function setCookie() {
+      var cookieName = "example_cookie";
+      var cookieValue = getCookie(cookieName);
+      if (cookieValue === "" || cookieValue === null) {
+        cookieValue = prompt("Enter Cookie Value:");
+        var expires = new Date();
+        expires.setFullYear(expires.getFullYear() + 1); // Set cookie expiration to 1 year from now
+        document.cookie = cookieName + "=" + cookieValue + "; expires=" + expires.toUTCString() + "; path=/";
+      }
+      displayCookieValue(cookieValue);
+    }
+
+    // Function to get the cookie value
+    function getCookie(name) {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+          return cookie.substring(name.length + 1);
+        }
+      }
+      return "";
+    }
+
+    // Function to display the cookie value
+    function displayCookieValue(value) {
+      var cookieDiv = document.getElementById("cookieValue");
+      cookieDiv.textContent = "Cookie Value: " + value;
+      cookieDiv.style.display = "block"; // Display the hidden div
+    }
+
+    // Function to be executed when the page loads
+    window.onload = function() {
+      var cookieValue = getCookie("example_cookie");
+      if (cookieValue !== "") {
+        displayCookieValue(cookieValue);
+      }
+    }
+  </script>
+</body>
+<footer>
+    <p>&copy Fabian Silva Almeida © 2024</p>
+</footer>
+</html>
